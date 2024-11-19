@@ -57,7 +57,7 @@ const MessageInput = () => {
     };
 
   return (
-    <div className='flex md:flex-row flex-col items-start w-full'>
+    <div className='w-full'>
         {files.length >= 1 &&
         <PreviewFiles
             files={files}
