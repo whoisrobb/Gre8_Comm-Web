@@ -53,10 +53,11 @@ const MessageInput = () => {
     const addEmoji = (emoji: any) => {
         const currentMessage = getValues("message");
         setValue("message", currentMessage + emoji.native);
+        setEmojiOpen(false);
     };
 
   return (
-    <div>
+    <div className='flex md:flex-row flex-col items-start w-full'>
         {files.length >= 1 &&
         <PreviewFiles
             files={files}
@@ -65,7 +66,7 @@ const MessageInput = () => {
         />}
 
         <div className="flex items-center">
-            <DropdownMenu>
+            <DropdownMenu open={emojiOpen} onOpenChange={setEmojiOpen}>
                 <DropdownMenuTrigger asChild>
                     <Button variant={'ghost'} size={'icon'}>
                         <FaceSmileIcon />
@@ -88,7 +89,7 @@ const MessageInput = () => {
         </div>
         
         <form
-            className="relative"
+            className="relative w-full"
         >
             <Textarea
                 {...register('message')}
