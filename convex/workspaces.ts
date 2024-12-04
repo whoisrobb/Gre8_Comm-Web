@@ -24,3 +24,12 @@ export const get = query({
         return await ctx.db.query("workspaces").collect(); 
     }
 });
+
+export const getById = query({
+    args: {
+        workspaceId: v.id("workspaces")
+    },
+    handler: async (ctx, args) => {
+        return await ctx.db.get(args.workspaceId);
+    }
+})

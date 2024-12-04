@@ -61,7 +61,7 @@ const CreateWorkspace = () => {
             loading: 'Creating workspace...',
             success: (data) => {
                 setOpen(false);
-                router.push(`/workspaces/${data}`)
+                router.push(`/workspace/${data}`)
                 return 'Successfully created workspace';
             },
             error: (error) => {
