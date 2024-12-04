@@ -14,6 +14,12 @@ export const create = mutation({
             userId: args.userId
         });
 
+        await ctx.db.insert("members", {
+            userId: args.userId,
+            workspaceId,
+            role: "admin"
+        });
+
         return workspaceId;
     }
 });
