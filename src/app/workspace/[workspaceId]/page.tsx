@@ -1,11 +1,11 @@
 import React from 'react'
 
-const Landing = () => {
+const page = () => {
   return (
     <div>
-      Wsgood
+      
     </div>
   )
 }
 
-export default Landing
+export default page
