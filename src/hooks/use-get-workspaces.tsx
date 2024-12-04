@@ -15,7 +15,9 @@ export const useGetWorkspace = () => {
 };
 
 export const useGetWorkspaceById = (workspaceId: Id<"workspaces">) => {
+    const { userId } = useAuth();
+
     return useQuery(
-        convexQuery(api.workspaces.getById, { workspaceId })
+        convexQuery(api.workspaces.getById, { userId: userId!, workspaceId })
     );
 };

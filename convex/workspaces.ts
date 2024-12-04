@@ -54,9 +54,25 @@ export const get = query({
 
 export const getById = query({
     args: {
+        userId: v.string(),
         workspaceId: v.id("workspaces")
     },
     handler: async (ctx, args) => {
+        if (!args.userId) {
+            throw new Error("Unauthorized!");
+        }
+
+        const member = await ctx.db
+            .query("members")
+            .withIndex("by_user_id_workspace_id", (q) =>
+                q.eq("userId", args.userId).eq("workspaceId", args.workspaceId)
+            )
+            .unique();
+
+        if (!member) {
+            return null;  
+        }
+
         return await ctx.db.get(args.workspaceId);
     }
 })
