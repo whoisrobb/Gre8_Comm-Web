@@ -89,4 +89,68 @@ export const getById = query({
 
         return await ctx.db.get(args.workspaceId);
     }
-})
+});
+
+export const update = mutation({
+    args: {
+        userId: v.string(),
+        workspaceId: v.id("workspaces"),
+        name: v.string()
+    },
+    handler: async (ctx, args) => {
+        if (!args.userId) {
+            throw new Error("Unauthorized!");
+        }
+
+        const member = await ctx.db
+            .query("members")
+            .withIndex("by_user_id_workspace_id", (q) =>
+                q.eq("userId", args.userId).eq("workspaceId", args.workspaceId)
+            )
+            .unique();
+        
+        if (!member || member.role !== "admin") {
+            throw new Error("Unauthorized!");
+        }
+
+        await ctx.db.patch(args.workspaceId, { name: args.name });
+        return args.workspaceId;
+    }
+});
+
+export const remove = mutation({
+    args: {
+        userId: v.string(),
+        workspaceId: v.id("workspaces")
+    },
+    handler: async (ctx, args) => {
+        if (!args.userId) {
+            throw new Error("Unauthorized!");
+        }
+
+        const member = await ctx.db
+            .query("members")
+            .withIndex("by_user_id_workspace_id", (q) =>
+                q.eq("userId", args.userId).eq("workspaceId", args.workspaceId)
+            )
+            .unique();
+        
+        if (!member || member.role !== "admin") {
+            throw new Error("Unauthorized!");
+        }
+
+        const [members] = await Promise.all([
+            ctx.db
+                .query("members")
+                .withIndex("by_workspace_id", (q) => q.eq("workspaceId", args.workspaceId))
+                .collect()
+        ]);
+
+        for (const member of members) {
+            await ctx.db.delete(member._id);
+        }
+
+        await ctx.db.delete(args.workspaceId);
+        return args.workspaceId;
+    }
+});
