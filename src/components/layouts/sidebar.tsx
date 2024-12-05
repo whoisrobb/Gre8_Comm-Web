@@ -6,6 +6,7 @@ import React from 'react';
 import { Id } from '../../../convex/_generated/dataModel';
 import { useGetWorkspaceById } from '@/hooks/use-get-workspaces';
 import { AlertTriangle, Loader } from 'lucide-react';
+import WorkspaceHeader from '../elements/workspace-header';
 
 const Sidebar = () => {
     const params = useParams<{ workspaceId: string }>();
@@ -32,7 +33,7 @@ const Sidebar = () => {
     }
   return (
     <div className='flex flex-col h-full'>
-      
+      <WorkspaceHeader workspace={workspace} isAdmin={member.role == "admin"} />
     </div>
   )
 }
