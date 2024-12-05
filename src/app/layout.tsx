@@ -1,20 +1,13 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
+import { Manrope } from "next/font/google";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import QueryProvider from "@/providers/query-provider";
 import { Toaster } from "sonner";
 import { ThemeProvider } from "@/providers/theme-provider";
 
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-});
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
+const manrope = Manrope({
+  subsets: ["latin"]
 });
 
 export const metadata: Metadata = {
@@ -31,9 +24,8 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+          className={manrope.className}
         >
-          
           <ThemeProvider
             attribute="class"
             defaultTheme="system"
