@@ -5,14 +5,16 @@ import { useParams } from 'next/navigation';
 import React from 'react';
 import { Id } from '../../../convex/_generated/dataModel';
 import { useGetWorkspaceById } from '@/hooks/use-get-workspaces';
-import { AlertTriangle, Loader, MessageSquareText, SendHorizonal } from 'lucide-react';
+import { AlertTriangle, HashIcon, Loader, MessageSquareText, SendHorizonal } from 'lucide-react';
 import WorkspaceHeader from '../elements/workspace-header';
 import SidebarElement from '../elements/sidebar-element';
+import { useGetChannels } from '@/hooks/use-get-channels';
 
 const Sidebar = () => {
     const params = useParams<{ workspaceId: string }>();
     const { data: member, isLoading: memberLoading } = useCurrentMember(params.workspaceId as Id<"workspaces">);
     const { data: workspace, isLoading: workspaceLoading} = useGetWorkspaceById(params.workspaceId as Id<"workspaces">);
+    const { data: channels, isLoading: channelsLoading } = useGetChannels(params.workspaceId as Id<"workspaces">);
 
     if (workspaceLoading || memberLoading) {
         return (
@@ -46,6 +48,14 @@ const Sidebar = () => {
                 icon={SendHorizonal}
                 id={"drafts"}
             />
+            {channels?.map((item) => (
+                <SidebarElement
+                    key={item._id}
+                    icon={HashIcon}
+                    label={item.name}
+                    id={item._id}
+                />
+            ))}
         </div>
     </div>
   )
