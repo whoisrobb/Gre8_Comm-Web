@@ -1,6 +1,19 @@
 import { v } from "convex/values";
 import { mutation, query } from "./_generated/server";
 
+const generateRandomString = () => {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    const length = 6;
+    let result = '';
+
+    for (let i = 0; i < length; i++) {
+        const randomIndex = Math.floor(Math.random() * characters.length);
+        result += characters[randomIndex];
+    }
+
+    return result;
+};
+
 export const create = mutation({
     args: {
         name: v.string(),
@@ -10,6 +23,7 @@ export const create = mutation({
 
         const workspaceId = await ctx.db.insert("workspaces", {
             name: args.name,
+            joinCode: generateRandomString(),
             userId: args.userId
         });
 

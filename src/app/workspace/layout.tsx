@@ -1,6 +1,11 @@
+import React from 'react';
 import CreateWorkspace from '@/components/elements/create-workspace';
 import Toolbar from '@/components/layouts/toolbar';
-import React from 'react'
+import {
+  ResizableHandle,
+  ResizablePanel,
+  ResizablePanelGroup,
+} from "@/components/ui/resizable";
 
 const WorkspaceLayout = ({
     children,
@@ -14,8 +19,21 @@ const WorkspaceLayout = ({
       <div className="grid gap-4 grid-cols-[3rem_1fr] p-2">
         <Toolbar />
         <div className="bg-background shadow h-[200vh]">
-
-          {children}
+          <ResizablePanelGroup
+            direction='horizontal'
+            autoSaveId={"gre8i-workspace-layout"}
+          >
+            <ResizablePanel
+              defaultSize={20}
+              minSize={11}
+            >
+              Sidebar
+            </ResizablePanel>
+            <ResizableHandle withHandle />
+            <ResizablePanel minSize={20}>
+              {children}
+            </ResizablePanel>
+          </ResizablePanelGroup>
         </div>
       </div>
     </div>
