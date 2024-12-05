@@ -2,6 +2,13 @@ import { defineSchema, defineTable } from "convex/server";
 import { v } from "convex/values";
 
 const schema = defineSchema({
+    users: defineTable({
+        userId: v.string(),
+        firstName: v.string(),
+        lastName: v.string(),
+        email: v.string(),
+        image: v.string()
+    }),
     workspaces: defineTable({
         name: v.string(),
         joinCode: v.string(),

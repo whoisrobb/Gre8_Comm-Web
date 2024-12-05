@@ -9,6 +9,7 @@ import { AlertTriangle, HashIcon, Loader, MessageSquareText, SendHorizonal } fro
 import WorkspaceHeader from '../elements/workspace-header';
 import SidebarElement from '../elements/sidebar-element';
 import { useGetChannels } from '@/hooks/use-get-channels';
+import WorkspaceSection from '../elements/workspace-section';
 
 const Sidebar = () => {
     const params = useParams<{ workspaceId: string }>();
@@ -48,6 +49,11 @@ const Sidebar = () => {
                 icon={SendHorizonal}
                 id={"drafts"}
             />
+        </div>
+        <WorkspaceSection
+            label={"Channels"}
+            onNew={() => {}}
+        >
             {channels?.map((item) => (
                 <SidebarElement
                     key={item._id}
@@ -56,7 +62,7 @@ const Sidebar = () => {
                     id={item._id}
                 />
             ))}
-        </div>
+        </WorkspaceSection>
     </div>
   )
 }
