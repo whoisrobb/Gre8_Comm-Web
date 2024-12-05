@@ -13,6 +13,7 @@ import type {
   FilterApi,
   FunctionReference,
 } from "convex/server";
+import type * as members from "../members.js";
 import type * as workspaces from "../workspaces.js";
 
 /**
@@ -24,6 +25,7 @@ import type * as workspaces from "../workspaces.js";
  * ```
  */
 declare const fullApi: ApiFromModules<{
+  members: typeof members;
   workspaces: typeof workspaces;
 }>;
 export declare const api: FilterApi<

@@ -6,6 +6,7 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
+import Sidebar from '@/components/layouts/sidebar';
 
 const WorkspaceLayout = ({
     children,
@@ -27,7 +28,7 @@ const WorkspaceLayout = ({
               defaultSize={20}
               minSize={11}
             >
-              Sidebar
+              <Sidebar />
             </ResizablePanel>
             <ResizableHandle withHandle />
             <ResizablePanel minSize={20}>
