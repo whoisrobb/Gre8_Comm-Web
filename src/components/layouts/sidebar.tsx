@@ -5,8 +5,9 @@ import { useParams } from 'next/navigation';
 import React from 'react';
 import { Id } from '../../../convex/_generated/dataModel';
 import { useGetWorkspaceById } from '@/hooks/use-get-workspaces';
-import { AlertTriangle, Loader } from 'lucide-react';
+import { AlertTriangle, Loader, MessageSquareText, SendHorizonal } from 'lucide-react';
 import WorkspaceHeader from '../elements/workspace-header';
+import SidebarElement from '../elements/sidebar-element';
 
 const Sidebar = () => {
     const params = useParams<{ workspaceId: string }>();
@@ -34,6 +35,18 @@ const Sidebar = () => {
   return (
     <div className='flex flex-col h-full'>
       <WorkspaceHeader workspace={workspace} isAdmin={member.role == "admin"} />
+        <div className={"flex flex-col px-2 mt-3"}>
+            <SidebarElement
+                label='Threads'
+                icon={MessageSquareText}
+                id={"threads"}
+            />
+            <SidebarElement
+                label='Drafts & Sent'
+                icon={SendHorizonal}
+                id={"drafts"}
+            />
+        </div>
     </div>
   )
 }
