@@ -7,6 +7,7 @@ import {
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
 import Sidebar from '@/components/layouts/sidebar';
+import CreateChannel from '@/components/elements/create-channel';
 
 const WorkspaceLayout = ({
     children,
@@ -16,6 +17,7 @@ const WorkspaceLayout = ({
   return (
     <div className='bg-stone-50'>
       <CreateWorkspace />
+      <CreateChannel />
 
       <div className="grid gap-4 grid-cols-[3rem_1fr] p-2">
         <Toolbar />
