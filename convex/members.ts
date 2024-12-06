@@ -1,10 +1,14 @@
 import { v } from "convex/values";
 import { query, QueryCtx } from "./_generated/server";
-import { Id } from "./_generated/dataModel";
 
-// const populateUser = (ctx: QueryCtx, userId: string, id: Id<"users">) => {
-//     return ctx.db.get(userId, id);
-// }
+const populateUser = (ctx: QueryCtx, userId: string) => {
+    return ctx.db
+        .query("users")
+        .withIndex("by_user_id", (q) =>
+            q.eq("userId", userId)
+        )
+        .unique();
+}
 
 export const get = query({
     args: {
@@ -33,7 +37,19 @@ export const get = query({
             .collect();
 
         const members = [];
+
+        for (const member of data) {
+            const user = await populateUser(ctx, member.userId);
+
+            if (user) {
+                members.push({
+                    ...member,
+                    user
+                })
+            }
+        }
         
+        return members;
     }
 })
 

@@ -8,7 +8,8 @@ const schema = defineSchema({
         lastName: v.string(),
         email: v.string(),
         image: v.string()
-    }),
+    })
+        .index("by_user_id", ["userId"]),
     workspaces: defineTable({
         name: v.string(),
         joinCode: v.string(),
