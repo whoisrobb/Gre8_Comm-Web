@@ -27,6 +27,7 @@ import { useCreateChannel } from "@/hooks/use-create-channel";
 import { useAuth } from "@clerk/nextjs";
 import { useParams, useRouter } from "next/navigation";
 import { Id } from "../../../convex/_generated/dataModel";
+import { toast } from "sonner";
 
 const formSchema = z.object({
     name: z
@@ -64,6 +65,9 @@ const CreateChannel = () => {
                 setOpen(false);
                 router.replace(`/workspace/${params.workspaceId}/channel/${id}`);
                 form.reset();
+            },
+            onError: () => {
+                toast.error('Failed to create channel');
             }
         });
     }
