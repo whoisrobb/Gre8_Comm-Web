@@ -30,6 +30,7 @@
     "react-hook-form": "^7.53.2",
     "react-resizable-panels": "^2.1.7",
     "react-use": "^17.5.1",
+    "react-verification-input": "^4.2.0",
     "sonner": "^1.7.0",
     "svix": "^1.42.0",
     "tailwind-merge": "^2.5.5",

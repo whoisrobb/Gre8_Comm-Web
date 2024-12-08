@@ -71,6 +71,9 @@ importers:
       react-use:
         specifier: ^17.5.1
         version: 17.5.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      react-verification-input:
+        specifier: ^4.2.0
+        version: 4.2.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       sonner:
         specifier: ^1.7.0
         version: 1.7.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -1331,6 +1334,12 @@ packages:
     peerDependencies:
       react: '*'
       react-dom: '*'
+
+  react-verification-input@4.2.0:
+    resolution: {integrity: sha512-+q6zqEi5n8bPyqXPe71ir9Qo2zX0xgPNyOSaPePerurLLHl2e0f0PMx9NltkbZB/E90vcrVMFjXRUS3bFngeiQ==}
+    peerDependencies:
+      react: 16.8.0 - 19.x.x || >=19.0.0-rc
+      react-dom: 16.8.0 - 19.x.x || >=19.0.0-rc
 
   react@18.3.1:
     resolution: {integrity: sha512-wS+hAgJShR0KhEvPJArfuPVN1+Hz1t0Y6n5jLrGQbkb4urgPE/0Rve+1kMB1v/oWgHgm4WIcV+i7F2pTVj+2iQ==}
@@ -2712,6 +2721,11 @@ snapshots:
       throttle-debounce: 3.0.1
       ts-easing: 0.2.0
       tslib: 2.8.1
+
+  react-verification-input@4.2.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
+    dependencies:
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
 
   react@18.3.1:
     dependencies:
