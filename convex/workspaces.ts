@@ -14,6 +14,38 @@ const generateRandomString = () => {
     return result;
 };
 
+export const newJoinCode = mutation({
+    args: {
+        userId: v.string(),
+        workspaceId: v.id("workspaces")
+    },
+    handler: async (ctx, args) => {
+        if (!args.userId) {
+            throw new Error("Unauthorized!")
+        }
+
+        const member = await ctx.db
+            .query("members")
+            .withIndex("by_user_id_workspace_id", (q) =>
+                q.eq("userId", args.userId).eq("workspaceId", args.workspaceId)
+            )
+            .unique()
+
+            if (!member || member.role !== "admin") {
+                throw new Error("Unauthorized!")
+            }
+
+        const joinCode = generateRandomString();
+
+        await ctx.db
+            .patch(args.workspaceId, {
+                joinCode
+            });
+
+        return args.workspaceId;
+    }
+})
+
 export const create = mutation({
     args: {
         name: v.string(),
