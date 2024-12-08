@@ -17,6 +17,7 @@ import { useChannelStore } from '@/store/channel';
 const Sidebar = () => {
     const setChannelModalOpen = useChannelStore(state => state.setOpen);
     const params = useParams<{ workspaceId: string }>();
+    const { channelId } = useParams<{ channelId: string }>();
     const { data: member, isLoading: memberLoading } = useCurrentMember(params.workspaceId as Id<"workspaces">);
     const { data: workspace, isLoading: workspaceLoading} = useGetWorkspaceById(params.workspaceId as Id<"workspaces">);
     const { data: channels, isLoading: channelsLoading } = useGetChannels(params.workspaceId as Id<"workspaces">);
@@ -65,6 +66,7 @@ const Sidebar = () => {
                     icon={HashIcon}
                     label={item.name}
                     id={item._id}
+                    variant={channelId == item._id ? "active" : "default"}
                 />
             ))}
         </WorkspaceSection>

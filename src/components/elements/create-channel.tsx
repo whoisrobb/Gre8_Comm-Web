@@ -25,7 +25,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { useCreateChannel } from "@/hooks/use-create-channel";
 import { useAuth } from "@clerk/nextjs";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { Id } from "../../../convex/_generated/dataModel";
 
 const formSchema = z.object({
@@ -45,6 +45,7 @@ const CreateChannel = () => {
     const { mutateAsync, isPending } = useCreateChannel();
     const { userId } = useAuth();
     const params = useParams<{ workspaceId: string }>();
+    const router = useRouter();
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -61,6 +62,7 @@ const CreateChannel = () => {
         }, {
             onSuccess: (id) => {
                 setOpen(false);
+                router.replace(`/workspace/${params.workspaceId}/channel/${id}`);
                 form.reset();
             }
         });
