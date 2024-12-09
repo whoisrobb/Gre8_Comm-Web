@@ -5,6 +5,7 @@ import React from 'react';
 import { Id } from '../../../../../../convex/_generated/dataModel';
 import { Loader, TriangleAlert } from 'lucide-react';
 import ChannelHeader from '@/components/elements/channel-header';
+import ChatInput from '@/components/elements/chat-input';
 
 type ChannelPageProps = {
   params: {
@@ -40,6 +41,9 @@ const ChannelPage = ({ params }: ChannelPageProps) => {
       <ChannelHeader
         title={channel.name}      
       />
+      <div className="flex-1 flex flex-col-reverse py-2">
+        <ChatInput />
+      </div>
     </div>
   )
 }
