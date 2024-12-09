@@ -15,7 +15,7 @@ const WorkspaceLayout = ({
     children: React.ReactNode;
   }>) => {
   return (
-    <div className='bg-stone-50'>
+    <div className='bg-muted/50'>
       <CreateWorkspace />
       <CreateChannel />
 
