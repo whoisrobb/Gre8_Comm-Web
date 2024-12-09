@@ -18,6 +18,7 @@ import { Id } from '../../../convex/_generated/dataModel';
 import { useAuth } from '@clerk/nextjs';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
+import { useCurrentMember } from '@/hooks/use-current-member';
 
 type ChannelHeaderProps = {
     title: string;
@@ -25,10 +26,16 @@ type ChannelHeaderProps = {
 
 const ChannelHeader = ({ title }: ChannelHeaderProps) => {
     const { workspaceId, channelId } = useParams<{ workspaceId: string, channelId: string }>();
+    const { data: member } = useCurrentMember(workspaceId as Id<"workspaces">);
     const { userId } = useAuth();
     const [editOpen, setEditOpen] = useState(false);
     const { mutateAsync, isPending } = useDeleteChannel();
     const router = useRouter();
+
+    const handleEditChannel = (value: boolean) => {
+        if (member?.role !== "admin") return;
+        setEditOpen(value);
+    };
 
     const handleDeleteChannel = () => {
         mutateAsync({
@@ -42,8 +49,8 @@ const ChannelHeader = ({ title }: ChannelHeaderProps) => {
             onError: () => {
                 toast.error("Failed to delete channel");
             }
-        })
-    }
+        });
+    };
   return (
     <div className='border-b h-[49px] flex items-center px-4'>
         <Dialog>
@@ -68,12 +75,12 @@ const ChannelHeader = ({ title }: ChannelHeaderProps) => {
                     </DialogTitle>
                 </DialogHeader>
                 <div className='px-4 pb-4 flex-col gap-y-2'>
-                    <Dialog open={editOpen} onOpenChange={setEditOpen}>
+                    <Dialog open={editOpen} onOpenChange={handleEditChannel}>
                         <DialogTrigger asChild>
                             <div className="px-5 py-4 rounded-lg cursor-pointer hover:muted/50 transition-all">
                                 <div className="flex items-center justify-between">
                                     <p className="text-sm font-semibold">Channel name</p>
-                                    <p className="text-sm text-[#1264a3] hover:underline font-semibold">Edit</p>
+                                    {member?.role == "admin" && <p className="text-sm text-[#1264a3] hover:underline font-semibold">Edit</p>}
                                 </div>
                                 <p className="text-sm flex items-center">
                                     <Hash className='size-2' />
@@ -94,6 +101,7 @@ const ChannelHeader = ({ title }: ChannelHeaderProps) => {
                         </DialogContent>
                     </Dialog>
 
+                    {member?.role === "admin" &&
                     <Button
                         variant='outline'
                         size='icon'
@@ -101,7 +109,7 @@ const ChannelHeader = ({ title }: ChannelHeaderProps) => {
                         disabled={isPending}
                     >
                         <Trash className='size-4 text-rose-600' />
-                    </Button>
+                    </Button>}
                 </div>
             </DialogContent>
         </Dialog>
