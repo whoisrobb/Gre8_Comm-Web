@@ -19,13 +19,16 @@ import Picker from '@emoji-mart/react';
 type TiptapProps = {
     placeholder?: string;
     submit: () => void;
+    content: string;
+    setContent: Dispatch<SetStateAction<string>>;
 }
 
 const Tiptap = ({
     placeholder = "Type a message",
-    submit
+    submit,
+    content,
+    setContent,
 }: TiptapProps) => {
-    const [content, setContent] = useState("");
     const [showToolbar, setShowToolbar] = useState(true);
     const editor = useEditor({
         extensions: [StarterKit.configure()],
@@ -36,8 +39,7 @@ const Tiptap = ({
             }
         },
         onUpdate({ editor }) {
-            setContent(editor.getHTML()),
-            console.log(editor.getHTML())
+            setContent(editor.getHTML())
         }
     })
 

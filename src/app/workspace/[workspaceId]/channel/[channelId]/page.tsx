@@ -1,11 +1,14 @@
 "use client";
 
 import { useGetChannel } from '@/hooks/use-get-channel';
-import React from 'react';
+import React, { useState } from 'react';
 import { Id } from '../../../../../../convex/_generated/dataModel';
 import { Loader, TriangleAlert } from 'lucide-react';
 import ChannelHeader from '@/components/elements/channel-header';
-import ChatInput from '@/components/elements/chat-input';
+import TextInput from '@/components/message-input/text-input';
+import { useCreateMessage } from '@/hooks/use-create-message';
+import { toast } from 'sonner';
+import { useAuth } from '@clerk/nextjs';
 
 type ChannelPageProps = {
   params: {
@@ -16,8 +19,11 @@ type ChannelPageProps = {
 
 const ChannelPage = ({ params }: ChannelPageProps) => {
   const { workspaceId, channelId } = params;
+  const [content, setContent] = useState('');
 
+  const { userId } = useAuth();
   const { data: channel, isLoading: channelLoading } = useGetChannel(channelId as Id<"channels">);
+  const { mutateAsync } = useCreateMessage();
 
   if (channelLoading) {
     return (
@@ -35,6 +41,24 @@ const ChannelPage = ({ params }: ChannelPageProps) => {
       </div>
     );
   }
+    
+  const submit = () => {
+    mutateAsync({
+      userId: userId!,
+      workspaceId: workspaceId as Id<"workspaces">,
+      channelId: channelId as Id<"channels">,
+      content
+    }, {
+      onSuccess: () => {
+        setContent('');
+      },
+      onError: () => {
+        toast.error('Failed to create message');
+      }
+    });
+    console.log(content);
+  };
+  
 
   return (
     <div className='flex flex-col h-full'>
@@ -42,7 +66,16 @@ const ChannelPage = ({ params }: ChannelPageProps) => {
         title={channel.name}      
       />
       <div className="flex-1 flex flex-col-reverse py-2">
-        <ChatInput />
+        
+    <div className='flex flex-col'>
+      <div className="flex flex-col rounded-md overflow-hidden">
+        <TextInput
+          submit={submit}
+          content={content}
+          setContent={setContent}
+        />
+      </div>
+    </div>
       </div>
     </div>
   )

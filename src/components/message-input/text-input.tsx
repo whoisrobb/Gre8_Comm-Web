@@ -1,12 +1,21 @@
-import React from 'react'
+import React, { Dispatch, SetStateAction } from 'react';
 import Tiptap from './tiptap';
 
-const TextInput = () => {
+type TextInputProps = {
+    placeholder?: string;
+    submit: () => void;
+    content: string;
+    setContent: Dispatch<SetStateAction<string>>;
+};
+
+const TextInput = ({ placeholder, content, setContent, submit }: TextInputProps) => {
   return (
     <div>
       <Tiptap
-        placeholder='Type a message...'
-        submit={console.log}
+        placeholder={placeholder}
+        submit={submit}
+        content={content}
+        setContent={setContent}
       />
     </div>
   )
