@@ -6,6 +6,7 @@ import {
     AvatarImage,
     AvatarFallback
 } from '@/components/ui/avatar';
+import Toolbar from './toolbar';
 
 type MessageProps = {
     id: Id<"messages">;
@@ -71,7 +72,7 @@ const Message: React.FC<MessageProps> = ({
     const avatarFallback = authorName.charAt(0).toUpperCase();
 
   return (
-    <div className='flex flex-col gap-2 p-1.5 hover:bg-muted transition-all group'>
+    <div className='relative flex flex-col gap-2 p-1.5 hover:bg-muted transition-all group'>
         <div className="flex items-start gap-2">
             <button>
                 <Avatar className='size-5'>
@@ -101,7 +102,17 @@ const Message: React.FC<MessageProps> = ({
                 </div>
             </div>
         </div>
-        
+        {!isEditing && (
+            <Toolbar
+                isAuthor={isAuthor}
+                isPending={false}
+                handleEdit={() => setEditingId(id)}
+                handleThread={() => {}}
+                handleDelete={() => {}}
+                handleReaction={() => {}}
+                hideThreadButton={hideThreadButton}
+            />
+        )}
     </div>
   )
 }

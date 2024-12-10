@@ -15,6 +15,7 @@ import { Button } from '../ui/button';
 import { Smile } from 'lucide-react';
 import data from '@emoji-mart/data';
 import Picker from '@emoji-mart/react';
+import EmojiPopover from './emoji-popover';
 
 type TiptapProps = {
     placeholder?: string;
@@ -92,21 +93,9 @@ const InputTools = ({ editor, setShowToolbar, content, submit }: InputToolsProps
                 <LetterCaseCapitalizeIcon className='size-4' />
             </Button>
 
-            <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                    <Button
-                        variant={"ghost"}
-                        size={'icon'}
-                    >
-                        <Smile className='size-4' />
-                    </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                    <DropdownMenuItem>
-                        <Picker data={data} onEmojiSelect={addEmoji} />
-                    </DropdownMenuItem>
-                </DropdownMenuContent>
-            </DropdownMenu>
+            <EmojiPopover
+                addEmoji={addEmoji}
+            />
 
             <Button
                 className='float-right'

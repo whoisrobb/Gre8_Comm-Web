@@ -1,9 +1,12 @@
-import React from 'react';
-import { api } from "../../../convex/_generated/api";
-import { DotsHorizontalIcon } from '@radix-ui/react-icons';
+"use client";
+
+import React, { useState } from 'react';
 import { Data } from '@/lib/type';
 import { format, isToday, isYesterday, differenceInMinutes } from 'date-fns';
 import Message from './message';
+import { Id } from '../../../convex/_generated/dataModel';
+import { useParams } from 'next/navigation';
+import { useCurrentMember } from '@/hooks/use-current-member';
 
 const TIMETHRESHOLD = 5;
 
@@ -23,14 +26,19 @@ const formarDateLabel = (dateStr: string) => {
     return format(date, 'EEEE, MMMM');
 };
 
-const MessageList: React.FC<MessageListProps> = ({
+const MessageList = ({
     memberName,
     memberImage,
     channelName,
     channelCreationTime,
     variant,
     data,
-}) => {
+}: MessageListProps) => {
+    const { workspaceId } = useParams<{ workspaceId: string }>();	
+
+    const { data: currentMember } = useCurrentMember(workspaceId as Id<"workspaces">); 
+    const [editingId, setEditingId] = useState<Id<"messages"> | null>(null);
+
     const groupedMessages = data.page.reduce((acc, message) => {
         const date = new Date(message._creationTime);
         const dateKey = format(date, 'yyyy-MM-dd');
@@ -66,15 +74,15 @@ const MessageList: React.FC<MessageListProps> = ({
                             memberId={message.memberId}
                             authorImage={message.user.image}
                             authorName={`${message.user.firstName} ${message.user.lastName}`}
-                            isAuthor={false}
+                            isAuthor={message.memberId === currentMember?._id}
                             reactions={message.reactions}
                             body={message.content}
                             updatedAt={message.updatedAt}
                             createdAt={message._creationTime}
-                            isEditing={false}
-                            setEditingId={() => {}}
+                            isEditing={editingId === message._id}
+                            setEditingId={setEditingId}
                             isCompact={isCompact}
-                            hideThreadButton={false}
+                            hideThreadButton={variant === 'thread'}
                             threadCount={message.threadCount}
                             threadTimestamp={message.threadTimestamp}
                         />)
