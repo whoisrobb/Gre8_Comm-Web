@@ -251,3 +251,31 @@ export const create = mutation({
         return messageId;
     }
 });
+
+export const remove = mutation({
+    args: {
+        userId: v.string(),
+        messageId: v.id("messages")
+    },
+    handler: async (ctx, args) => {
+        if (!args.userId) {
+            throw Error("Unauthorized!");
+        }
+
+        const message = await ctx.db.get(args.messageId);
+
+        if (!message) {
+            throw new Error("Invalid message!");
+        }
+
+        const member = await getMember(ctx, message.workspaceId, args.userId);
+
+        if (!member || member._id !== message.memberId) {
+            throw new Error("Unauthorized!");
+        }
+
+        await ctx.db.delete(args.messageId);
+
+        return args.messageId;
+    }
+});

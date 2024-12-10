@@ -14,6 +14,7 @@ import { useUpdateMessage } from '@/hooks/use-update-message';
 import { useAuth } from '@clerk/nextjs';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
+import { useDeleteMessage } from '@/hooks/use-delete-message';
 
 const Editor = dynamic(() => import('@/components/message-input/text-input'), { ssr: false });
 
@@ -58,14 +59,15 @@ const Message: React.FC<MessageProps> = ({
     threadTimestamp,
 }) => {
     const [editContent, setEditContent] = useState(body);
-    const { mutateAsync, isPending: isUpdatingMessage } = useUpdateMessage();
+    const { mutateAsync: updateMessage, isPending: isUpdatingMessage } = useUpdateMessage();
+    const { mutateAsync: deleteMessage, isPending: isDeletingMessage } = useDeleteMessage();
     const { userId } = useAuth();
 
     const isPending = isUpdatingMessage;
 
     const handleUpdateMessage = (content: string) => {
         console.log('Edited content: ', content);
-        mutateAsync({
+        updateMessage({
             userId: userId!,
             messageId: id,
             content,
@@ -79,6 +81,22 @@ const Message: React.FC<MessageProps> = ({
             }
         });
         setEditingId(null);
+    }
+
+    const handleDeleteMessage = () => {
+        deleteMessage({
+            userId: userId!,
+            messageId: id,
+        }, {
+            onSuccess: () => {
+                toast.success('Message deleted');
+
+                // TODO: Close thread if open
+            },
+            onError: () => {
+                toast.error('Failed to delete message');
+            }
+        });
     }
 
     const handleCancelEdit = () => {
@@ -124,7 +142,7 @@ const Message: React.FC<MessageProps> = ({
                         isPending={false}
                         handleEdit={() => setEditingId(id)}
                         handleThread={() => {}}
-                        handleDelete={() => {}}
+                        handleDelete={handleDeleteMessage}
                         handleReaction={() => {}}
                         hideThreadButton={hideThreadButton}
                     />
@@ -188,7 +206,7 @@ const Message: React.FC<MessageProps> = ({
                 isPending={false}
                 handleEdit={() => setEditingId(id)}
                 handleThread={() => {}}
-                handleDelete={() => {}}
+                handleDelete={handleDeleteMessage}
                 handleReaction={() => {}}
                 hideThreadButton={hideThreadButton}
             />
