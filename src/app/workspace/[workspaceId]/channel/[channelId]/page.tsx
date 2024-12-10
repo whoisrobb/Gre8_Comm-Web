@@ -9,6 +9,9 @@ import TextInput from '@/components/message-input/text-input';
 import { useCreateMessage } from '@/hooks/use-create-message';
 import { toast } from 'sonner';
 import { useAuth } from '@clerk/nextjs';
+import { useGetMessages } from '@/hooks/use-get-messages';
+import MessageList from '@/components/elements/message-list';
+import { Data } from '@/lib/type';
 
 type ChannelPageProps = {
   params: {
@@ -23,6 +26,9 @@ const ChannelPage = ({ params }: ChannelPageProps) => {
 
   const { userId } = useAuth();
   const { data: channel, isLoading: channelLoading } = useGetChannel(channelId as Id<"channels">);
+  const { data: messages, isLoading: messagesLoading } = useGetMessages({
+    channelId: channelId as Id<"channels">
+  });
   const { mutateAsync } = useCreateMessage();
 
   if (channelLoading) {
@@ -65,17 +71,24 @@ const ChannelPage = ({ params }: ChannelPageProps) => {
       <ChannelHeader
         title={channel.name}      
       />
+
+      <MessageList
+        channelName={channel.name}
+        channelCreationTime={channel._creationTime}
+        data={messages as Data}
+      />
+
       <div className="flex-1 flex flex-col-reverse py-2">
         
-    <div className='flex flex-col'>
-      <div className="flex flex-col rounded-md overflow-hidden">
-        <TextInput
-          submit={submit}
-          content={content}
-          setContent={setContent}
-        />
-      </div>
-    </div>
+        <div className='flex flex-col'>
+          <div className="flex flex-col rounded-md overflow-hidden">
+            <TextInput
+              submit={submit}
+              content={content}
+              setContent={setContent}
+            />
+          </div>
+        </div>
       </div>
     </div>
   )
