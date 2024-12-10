@@ -69,6 +69,38 @@ const getMember = async (
         .unique();
 };
 
+export const update = mutation({
+    args: {
+        userId: v.string(),
+        messageId: v.id("messages"),
+        content: v.string()
+    },
+    handler: async (ctx, args) => {
+        if (!args.userId) {
+            throw Error("Unauthorized!");
+        }
+
+        const message = await ctx.db.get(args.messageId);
+
+        if (!message) {
+            throw new Error("Invalid message!");
+        }
+
+        const member = await getMember(ctx, message.workspaceId, args.userId);
+
+        if (!member || member._id !== message.memberId) {
+            throw new Error("Unauthorized!");
+        }
+
+        await ctx.db.patch(args.messageId, {
+            content: args.content,
+            updatedAt: Date.now()
+        });
+
+        return args.messageId;
+    }
+});
+
 export const get = query({
     args: {
         userId: v.string(),

@@ -39,6 +39,7 @@ const Toolbar = ({
                 size='icon'
                 className='size-7'
                 disabled={isPending}
+                onClick={handleThread}
             >
                 <ChatBubbleIcon className='size-2' />
             </Button>}
@@ -49,6 +50,7 @@ const Toolbar = ({
                 size='icon'
                 className='size-7'
                 disabled={isPending}
+                onClick={handleEdit}
             >
                 <Pencil className='size-2' />
             </Button>}
@@ -59,6 +61,7 @@ const Toolbar = ({
                 size='icon'
                 className='size-7'
                 disabled={isPending}
+                onClick={handleDelete}
             >
                 <TrashIcon className='size-2' />
             </Button>}

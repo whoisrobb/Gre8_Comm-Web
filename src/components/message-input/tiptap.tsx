@@ -19,9 +19,11 @@ import EmojiPopover from './emoji-popover';
 
 type TiptapProps = {
     placeholder?: string;
-    submit: () => void;
+    submit: (content: string) => void;
     content: string;
     setContent: Dispatch<SetStateAction<string>>;
+    isEditing?: boolean;
+    handleCancel?: () => void;
 }
 
 const Tiptap = ({
@@ -29,6 +31,8 @@ const Tiptap = ({
     submit,
     content,
     setContent,
+    isEditing,
+    handleCancel
 }: TiptapProps) => {
     const [showToolbar, setShowToolbar] = useState(true);
     const editor = useEditor({
@@ -45,7 +49,7 @@ const Tiptap = ({
     })
 
   return (
-    <div className="rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-colors placeholder:text-muted-foreground focus-visible:outline-none">
+    <div className="rounded-md border border-input bg-background px-3 py-1 text-base shadow-sm transition-colors placeholder:text-muted-foreground focus-visible:outline-none">
         <Toolbar editor={editor} className={showToolbar ? 'block' : 'hidden'} />
         <EditorContent
             editor={editor}
@@ -56,6 +60,8 @@ const Tiptap = ({
             setShowToolbar={setShowToolbar}
             content={content}
             submit={submit}
+            isEditing={isEditing}
+            handleCancel={handleCancel}
         />
     </div>
   )
@@ -67,10 +73,12 @@ type InputToolsProps = {
     editor: Editor | null;
     setShowToolbar: Dispatch<SetStateAction<boolean>>;
     content: string;
-    submit: () => void;
+    submit: (content: string) => void;
+    isEditing?: boolean;
+    handleCancel?: () => void;
 }
 
-const InputTools = ({ editor, setShowToolbar, content, submit }: InputToolsProps) => {    
+const InputTools = ({ editor, setShowToolbar, content, submit, isEditing, handleCancel }: InputToolsProps) => {    
     if (!editor) {
         return null;
     }
@@ -97,14 +105,26 @@ const InputTools = ({ editor, setShowToolbar, content, submit }: InputToolsProps
                 addEmoji={addEmoji}
             />
 
-            <Button
-                className='float-right'
-                size={'sm'}
-                disabled={isContentEmpty}
-                onClick={submit}
-            >
-                <PaperPlaneIcon className='size-4' />
-            </Button>
+            <div className="flex items-center float-right gap-2">
+                {isEditing && (
+                    <Button
+                        variant={"secondary"}
+                        size={'sm'}
+                        onClick={handleCancel}
+                    >
+                        Cancel
+                    </Button>
+                )}
+
+                <Button
+                    className=''
+                    size={'sm'}
+                    disabled={isContentEmpty}
+                    onClick={() => submit(content)}
+                >
+                    <PaperPlaneIcon className='size-4' />
+                </Button>
+            </div>
         </div>
     )
 };

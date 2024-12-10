@@ -48,12 +48,12 @@ const ChannelPage = ({ params }: ChannelPageProps) => {
     );
   }
     
-  const submit = () => {
+  const submit = (body: string) => {
     mutateAsync({
       userId: userId!,
       workspaceId: workspaceId as Id<"workspaces">,
       channelId: channelId as Id<"channels">,
-      content
+      content: body
     }, {
       onSuccess: () => {
         setContent('');
