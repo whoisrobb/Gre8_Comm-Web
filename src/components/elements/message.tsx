@@ -50,14 +50,14 @@ const Message: React.FC<MessageProps> = ({
 
     if (isCompact) {
         return (
-            <div className='flex flex-col gap-2 p-1.5 pl-8 pr-1.5 hover:bg-muted transition-all group'>
+            <div className='flex leading-tight flex-col gap-2 p-1.5 pl-8 pr-1.5 hover:bg-muted transition-all'>
                 <div className="flex items-start gap-2">
-                    <button className='text-xs text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity leading-[22px] text-center hover:underline'>
+                    <button className='text-xs text-muted-foreground text-center hover:underline'>
                         {format(new Date(createdAt), 'hh:mm a')}
                     </button>
                 </div>
                 <div className="flex flex-col w-full">
-                    <div dangerouslySetInnerHTML={{ __html: body }} />
+                    <div className="text-base" dangerouslySetInnerHTML={{ __html: body }} />
                     {updatedAt && (
                         <div className="text-xs text-muted-foreground">
                             Edited
@@ -82,7 +82,7 @@ const Message: React.FC<MessageProps> = ({
                 </Avatar>
             </button>
             <div className="flex flex-col w-full overflow-hidden">
-                <div className="text-sm">
+                <div className="text-base">
                     <button onClick={() => {}} className='font-bold text-primary hover:underline'>{authorName}</button>
                     <span className="">
                         &nbsp;•&nbsp;
@@ -92,7 +92,7 @@ const Message: React.FC<MessageProps> = ({
                     </button>
                 </div>
                 <div className="flex flex-col w-full">
-                    <div dangerouslySetInnerHTML={{ __html: body }} />
+                    <div className="text-sm" dangerouslySetInnerHTML={{ __html: body }} />
                     {updatedAt && (
                         <div className="text-xs text-muted-foreground">
                             Edited
