@@ -39,6 +39,10 @@ const MessageList = ({
     const { data: currentMember } = useCurrentMember(workspaceId as Id<"workspaces">); 
     const [editingId, setEditingId] = useState<Id<"messages"> | null>(null);
 
+    if (!data.page) {
+        return null;
+    }
+
     const groupedMessages = data.page.reduce((acc, message) => {
         const date = new Date(message._creationTime);
         const dateKey = format(date, 'yyyy-MM-dd');
