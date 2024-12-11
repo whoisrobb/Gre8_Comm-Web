@@ -39,7 +39,7 @@ const MessageList = ({
     const { data: currentMember } = useCurrentMember(workspaceId as Id<"workspaces">); 
     const [editingId, setEditingId] = useState<Id<"messages"> | null>(null);
 
-    if (!data.page) {
+    if (!data) {
         return null;
     }
 
