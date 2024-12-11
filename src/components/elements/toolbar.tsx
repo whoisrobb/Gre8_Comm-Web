@@ -25,7 +25,7 @@ const Toolbar = ({
 }: ToolbarProps) => {
   return (
     <div className='absolute top-0 right-5'>
-        <div className="group-hover:opacity-100 opacity-0 transition-opacity bg-background border rounded-md shadow-sm">
+        <div className="group-hover:opacity-100 opacity-0 transition-opacity bg-background border rounded-md shadow-sm p-1">
             <EmojiPopover
                 addEmoji={handleReaction}
                 className='size-7'
