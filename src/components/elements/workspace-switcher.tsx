@@ -31,7 +31,7 @@ const WorkspaceSwitcher = () => {
         <DropdownMenuTrigger asChild>
             <Button
                 variant={'ghost'}
-                className='shadow size-10'
+                className='shadow size-10 bg-background'
                 size={'icon'}
                 onClick={() => router.push(`/workspace/${params.workspaceId}`)}
             >
