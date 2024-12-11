@@ -15,6 +15,8 @@ import { useAuth } from '@clerk/nextjs';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
 import { useDeleteMessage } from '@/hooks/use-delete-message';
+import { useToggleReaction } from '@/hooks/use-toggle-reaction';
+import Reactions from './reactions';
 
 const Editor = dynamic(() => import('@/components/message-input/text-input'), { ssr: false });
 
@@ -61,6 +63,7 @@ const Message: React.FC<MessageProps> = ({
     const [editContent, setEditContent] = useState(body);
     const { mutateAsync: updateMessage, isPending: isUpdatingMessage } = useUpdateMessage();
     const { mutateAsync: deleteMessage, isPending: isDeletingMessage } = useDeleteMessage();
+    const { mutateAsync: toggleReaction, isPending: isTogglingReaction } = useToggleReaction();
     const { userId } = useAuth();
 
     const isPending = isUpdatingMessage;
@@ -95,6 +98,18 @@ const Message: React.FC<MessageProps> = ({
             },
             onError: () => {
                 toast.error('Failed to delete message');
+            }
+        });
+    }
+
+    const handleToggleReaction = (value: any) => {
+        toggleReaction({
+            userId: userId!,
+            messageId: id,
+            value: value.native,
+        }, {
+            onError: () => {
+                toast.error('Failed to add reaction');
             }
         });
     }
@@ -134,6 +149,11 @@ const Message: React.FC<MessageProps> = ({
                                 Edited
                             </div>
                         )}
+                        <Reactions
+                            data={reactions}
+                            onChange={handleToggleReaction}
+                            // isPending={isTogglingReaction}
+                        />
                     </div>
                 )}
                 {!isEditing && (
@@ -143,7 +163,7 @@ const Message: React.FC<MessageProps> = ({
                         handleEdit={() => setEditingId(id)}
                         handleThread={() => {}}
                         handleDelete={handleDeleteMessage}
-                        handleReaction={() => {}}
+                        handleReaction={handleToggleReaction}
                         hideThreadButton={hideThreadButton}
                     />
                 )}
@@ -196,6 +216,11 @@ const Message: React.FC<MessageProps> = ({
                             Edited
                         </div>
                     )}
+                    <Reactions
+                        data={reactions}
+                        onChange={handleToggleReaction}
+                        // isPending={isTogglingReaction}
+                    />
                 </div>
             </div>
             )}
@@ -207,7 +232,7 @@ const Message: React.FC<MessageProps> = ({
                 handleEdit={() => setEditingId(id)}
                 handleThread={() => {}}
                 handleDelete={handleDeleteMessage}
-                handleReaction={() => {}}
+                handleReaction={handleToggleReaction}
                 hideThreadButton={hideThreadButton}
             />
         )}
