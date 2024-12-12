@@ -31,18 +31,20 @@ const WorkspaceLayout = ({
 
       <div className="grid gap-4 grid-cols-[3rem_1fr] p-2">
         <Toolbar />
-        <div className="bg-background shadow min-h-[calc(100vh-2rem)]">
+        <div className="bg-background shadow min-h-[calc(100vh-2rem)] grid grid-cols-[15rem_1fr]">
+          <Sidebar />
+
           <ResizablePanelGroup
             direction='horizontal'
             autoSaveId={"gre8i-workspace-layout"}
           >
-            <ResizablePanel
+            {/* <ResizablePanel
               defaultSize={20}
               minSize={11}
             >
               <Sidebar />
             </ResizablePanel>
-            <ResizableHandle withHandle />
+            <ResizableHandle withHandle /> */}
             <ResizablePanel minSize={20}>
               {children}
             </ResizablePanel>
