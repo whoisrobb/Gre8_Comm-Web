@@ -62,7 +62,6 @@ const ChannelPage = ({ params }: ChannelPageProps) => {
         toast.error('Failed to create message');
       }
     });
-    console.log(content);
   };
   
 
