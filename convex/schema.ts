@@ -30,14 +30,14 @@ const schema = defineSchema({
         .index("by_workspace_id", ["workspaceId"]),
     conversations: defineTable({
         workspaceId: v.id("workspaces"),
-        memberOneId: v.string(),
-        memberTwoId: v.string(),
-        userId: v.string(),
-        memberId: v.string()
-    })
-        .index("by_user_id", ["userId"])
-        .index("by_workspace_id", ["workspaceId"])
-        .index("by_member_id", ["memberId"]),
+        memberOneId: v.id("members"),
+        memberTwoId: v.id("members"),
+        // userId: v.string(),
+        // memberId: v.string()
+    }),
+        // .index("by_user_id", ["userId"])
+        // .index("by_workspace_id", ["workspaceId"])
+        // .index("by_member_id", ["memberId"]),
     messages: defineTable({
         content: v.string(),
         memberId: v.id("members"),
