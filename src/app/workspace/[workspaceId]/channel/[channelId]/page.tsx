@@ -2,16 +2,18 @@
 
 import { useGetChannel } from '@/hooks/use-get-channel';
 import React, { useState } from 'react';
+import dynamic from 'next/dynamic';
 import { Id } from '../../../../../../convex/_generated/dataModel';
 import { Loader, TriangleAlert } from 'lucide-react';
 import ChannelHeader from '@/components/elements/channel-header';
-import TextInput from '@/components/message-input/text-input';
 import { useCreateMessage } from '@/hooks/use-create-message';
 import { toast } from 'sonner';
 import { useAuth } from '@clerk/nextjs';
 import { useGetMessages } from '@/hooks/use-get-messages';
 import MessageList from '@/components/elements/message-list';
 import { Data } from '@/lib/type';
+
+const Editor = dynamic(() => import('@/components/message-input/text-input'), { ssr: false });
 
 type ChannelPageProps = {
   params: {
@@ -23,6 +25,7 @@ type ChannelPageProps = {
 const ChannelPage = ({ params }: ChannelPageProps) => {
   const { workspaceId, channelId } = params;
   const [content, setContent] = useState('');
+  const [editorKey, setEditorKey] = useState(0);
 
   const { userId } = useAuth();
   const { data: channel, isLoading: channelLoading } = useGetChannel(channelId as Id<"channels">);
@@ -57,6 +60,7 @@ const ChannelPage = ({ params }: ChannelPageProps) => {
     }, {
       onSuccess: () => {
         setContent('');
+        setEditorKey(editorKey + 1);
       },
       onError: () => {
         toast.error('Failed to create message');
@@ -66,28 +70,26 @@ const ChannelPage = ({ params }: ChannelPageProps) => {
   
 
   return (
-    <div className='flex flex-col h-full'>
+    <div className='flex flex-col flex-1 h-full'>
       <ChannelHeader
         title={channel.name}      
       />
 
-      <MessageList
-        channelName={channel.name}
-        channelCreationTime={channel._creationTime}
-        data={messages as Data}
-      />
+      <div className="flex flex-col-reverse flex-1">
+        <MessageList
+          channelName={channel.name}
+          channelCreationTime={channel._creationTime}
+          data={messages as Data}
+        />
+      </div>
 
-      <div className="flex-1 flex flex-col-reverse py-2">
-        
-        <div className='flex flex-col'>
-          <div className="flex flex-col rounded-md overflow-hidden">
-            <TextInput
-              submit={submit}
-              content={content}
-              setContent={setContent}
-            />
-          </div>
-        </div>
+      <div className="p-2">
+        <Editor
+          key={editorKey}
+          submit={submit}
+          content={content}
+          setContent={setContent}
+        />
       </div>
     </div>
   )
