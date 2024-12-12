@@ -42,8 +42,8 @@ const Sidebar = () => {
         )
     }
   return (
-    <div className='flex flex-col h-full'>
-      <WorkspaceHeader workspace={workspace} isAdmin={member.role == "admin"} />
+    <div className='overflow-y-auto border-r sticky top-4 h-[calc(100vh-16px)]'>
+        <WorkspaceHeader workspace={workspace} isAdmin={member.role == "admin"} />
         <div className={"flex flex-col px-2 mt-3"}>
             <SidebarElement
                 label='Threads'
