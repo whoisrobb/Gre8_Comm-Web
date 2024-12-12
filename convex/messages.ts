@@ -185,7 +185,10 @@ export const get = query({
                         );
 
                         const reactionWithoutMemberIdProp = dedupedReactions.map(
-                            ({ memberId, ...reaction }) => reaction
+                            (reaction) => ({
+                                ...reaction,
+                                memberId: reaction.memberIds[0] // Assuming the first memberId is used
+                            })
                         );
 
                         return {
@@ -201,6 +204,88 @@ export const get = query({
             ).filter(
                 (message) => message !== null
             )
+        };
+    }
+});
+
+export const getById = query({
+    args: {
+        userId: v.string(),
+        messageId: v.id("messages")
+    },
+    handler: async (ctx, args) => {
+        if (!args.userId) {
+            return null;
+        }
+
+        const message = await ctx.db.get(args.messageId);
+        if (!message) {
+            return null;
+        }
+
+        const currentMember = await getMember(ctx, message.workspaceId, args.userId);
+        if (!currentMember) {
+            return null;
+        }
+
+        const member = await populateMember(ctx, message.memberId);
+        if (!member) {
+            return null;
+        }
+        
+        const user = member ? await populateUser(ctx, member.userId) : null;
+        if (!user) {
+            return null;
+        }
+
+        const reactions = await populateReactions(ctx, message._id);
+        const thread = await populateThread(ctx, message._id);
+
+        const reactionsWithCount = reactions.map((reaction) => {
+            return {
+                ...reaction,
+                count: reactions.filter((r) => r.value === reaction.value).length
+            };
+        });
+
+        const dedupedReactions = reactionsWithCount.reduce(
+            (acc, reaction) => {
+                const existingReaction = acc.find(
+                    (r) => r.value === reaction.value
+                );
+
+                if (existingReaction) {
+                    existingReaction.memberIds = Array.from(
+                        new Set([
+                            ...existingReaction.memberIds,
+                            reaction.memberId
+                        ])
+                    );
+                } else {
+                    acc.push({ ...reaction, memberIds: [reaction.memberId] });
+                }
+
+                return acc;
+            },
+            [] as (Doc<"reactions"> & {
+                count: number;
+                memberIds: Id<"members">[];
+            })[]
+        );
+
+        const reactionWithoutMemberIdProp = dedupedReactions.map(
+            (reaction) => ({
+                ...reaction,
+                memberId: reaction.memberIds[0] // Assuming the first memberId is used
+            })
+        );
+
+        return {
+            ...message,
+            user,
+            member,
+            reactions: reactionWithoutMemberIdProp,
+            threadCount: thread.count,
         };
     }
 });

@@ -17,6 +17,7 @@ import { cn } from '@/lib/utils';
 import { useDeleteMessage } from '@/hooks/use-delete-message';
 import { useToggleReaction } from '@/hooks/use-toggle-reaction';
 import Reactions from './reactions';
+import { usePanel } from '@/hooks/use-panel';
 
 const Editor = dynamic(() => import('@/components/message-input/text-input'), { ssr: false });
 
@@ -64,8 +65,9 @@ const Message: React.FC<MessageProps> = ({
     const { mutateAsync: updateMessage, isPending: isUpdatingMessage } = useUpdateMessage();
     const { mutateAsync: deleteMessage, isPending: isDeletingMessage } = useDeleteMessage();
     const { mutateAsync: toggleReaction, isPending: isTogglingReaction } = useToggleReaction();
+    
     const { userId } = useAuth();
-
+    const { parentMessageId, onOpenMessage, onCloseMessage } = usePanel();
     const isPending = isUpdatingMessage;
 
     const handleUpdateMessage = (content: string) => {
@@ -95,6 +97,9 @@ const Message: React.FC<MessageProps> = ({
                 toast.success('Message deleted');
 
                 // TODO: Close thread if open
+                if (parentMessageId === id) {
+                    onCloseMessage();
+                }
             },
             onError: () => {
                 toast.error('Failed to delete message');
@@ -161,7 +166,7 @@ const Message: React.FC<MessageProps> = ({
                         isAuthor={isAuthor}
                         isPending={false}
                         handleEdit={() => setEditingId(id)}
-                        handleThread={() => {}}
+                        handleThread={() => onOpenMessage(id)}
                         handleDelete={handleDeleteMessage}
                         handleReaction={handleToggleReaction}
                         hideThreadButton={hideThreadButton}
@@ -230,7 +235,7 @@ const Message: React.FC<MessageProps> = ({
                 isAuthor={isAuthor}
                 isPending={false}
                 handleEdit={() => setEditingId(id)}
-                handleThread={() => {}}
+                handleThread={() => onOpenMessage(id)}
                 handleDelete={handleDeleteMessage}
                 handleReaction={handleToggleReaction}
                 hideThreadButton={hideThreadButton}

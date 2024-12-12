@@ -5,6 +5,7 @@ import { ClerkProvider } from "@clerk/nextjs";
 import QueryProvider from "@/providers/query-provider";
 import { Toaster } from "sonner";
 import { ThemeProvider } from "@/providers/theme-provider";
+import { NuqsAdapter } from 'nuqs/adapters/next/app'
 
 const manrope = Manrope({
   subsets: ["latin"]
@@ -26,15 +27,17 @@ export default function RootLayout({
         <body
           className={manrope.className}
         >
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-          >
-            <QueryProvider>
-              {children}
-              <Toaster />
-            </QueryProvider>
-          </ThemeProvider>
+          <NuqsAdapter>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="system"
+            >
+              <QueryProvider>
+                {children}
+                <Toaster />
+              </QueryProvider>
+            </ThemeProvider>
+          </NuqsAdapter>
         </body>
       </html>
     </ClerkProvider>
