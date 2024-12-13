@@ -18,6 +18,7 @@ import { useDeleteMessage } from '@/hooks/use-delete-message';
 import { useToggleReaction } from '@/hooks/use-toggle-reaction';
 import Reactions from './reactions';
 import { usePanel } from '@/hooks/use-panel';
+import ThreadBar from './thread-bar';
 
 const Editor = dynamic(() => import('@/components/message-input/text-input'), { ssr: false });
 
@@ -159,6 +160,11 @@ const Message: React.FC<MessageProps> = ({
                             onChange={handleToggleReaction}
                             // isPending={isTogglingReaction}
                         />
+                        <ThreadBar
+                            count={threadCount}
+                            timestamp={threadTimestamp}
+                            onClick={() => onOpenMessage(id)}
+                        />
                     </div>
                 )}
                 {!isEditing && (
@@ -225,6 +231,11 @@ const Message: React.FC<MessageProps> = ({
                         data={reactions}
                         onChange={handleToggleReaction}
                         // isPending={isTogglingReaction}
+                    />
+                    <ThreadBar
+                        count={threadCount}
+                        timestamp={threadTimestamp}
+                        onClick={() => onOpenMessage(id)}
                     />
                 </div>
             </div>
