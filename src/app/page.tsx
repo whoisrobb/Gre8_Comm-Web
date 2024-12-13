@@ -1,11 +1,8 @@
+import Header from '@/components/elements/header'
 import React from 'react'
 
 const Landing = () => {
-  return (
-    <div>
-      Wsgood
-    </div>
-  )
+  return <Header />
 }
 
 export default Landing
