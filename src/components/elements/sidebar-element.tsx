@@ -39,12 +39,12 @@ const SidebarElement = ({
         className={cn(SidebarElementVariants({ variant }))}
         asChild
     >
-      <Link
-        href={`/workspace/${params.workspaceId}/channel/${id}`}
-      >
-        <Icon className='size-3.5 mr-1 shrink-0' />
-        <span className="text-sm truncate">{label}</span>
-      </Link>
+        <Link
+            href={`/workspace/${params.workspaceId}/channel/${id}`}
+        >
+            <Icon className='size-3.5 mr-1 shrink-0' />
+            <span className="text-sm truncate">{label}</span>
+        </Link>
     </Button>
   )
 }
