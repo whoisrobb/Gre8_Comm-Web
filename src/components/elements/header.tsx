@@ -15,25 +15,7 @@ function Header() {
               <MessageSquareMore className="h-6 w-6 text-primary" />
               <span className="text-xl font-bold">Gre8 Comm</span>
             </div>
-            <NavigationMenu>
-              <NavigationMenuList className="hidden md:flex space-x-6">
-                <NavigationMenuItem>
-                  <NavigationMenuLink className="text-sm font-medium hover:text-primary" href="#features">
-                    Features
-                  </NavigationMenuLink>
-                </NavigationMenuItem>
-                <NavigationMenuItem>
-                  <NavigationMenuLink className="text-sm font-medium hover:text-primary" href="#pricing">
-                    Pricing
-                  </NavigationMenuLink>
-                </NavigationMenuItem>
-                <NavigationMenuItem>
-                  <NavigationMenuLink className="text-sm font-medium hover:text-primary" href="#about">
-                    About
-                  </NavigationMenuLink>
-                </NavigationMenuItem>
-              </NavigationMenuList>
-            </NavigationMenu>
+            
             <div className="flex items-center space-x-4">
               <SignedOut>
                 <SignInButton />

@@ -38,154 +38,23 @@ const ToolbarItems = () => {
             <nav className="px-1 py-4">
                 <WorkspaceSwitcher />
             </nav>
-
-          <nav className='grid gap-1 px-2 py-4'>
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button
-                    variant='ghost'
-                    size='icon'
-                    className='rounded-lg'
-                    aria-label='Playground'
-                    asChild
-                  >
-                    <Link href='/'>
-                      <HomeIcon className='size-5' />
-                    </Link>
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent side='right' sideOffset={5}>
-                  Home
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
   
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button
-                    variant='ghost'
-                    size='icon'
-                    className='rounded-lg bg-muted'
-                    aria-label='Playground'
-                  >
-                    <MessageSquare className='size-5' />
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent side='right' sideOffset={5}>
-                  Chats
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-  
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button
-                    variant='ghost'
-                    size='icon'
-                    className='rounded-lg'
-                    aria-label='Models'
-                  >
-                    <UsersRound className='size-5' />
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent side='right' sideOffset={5}>
-                  Communities
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-  
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button
-                    variant='ghost'
-                    size='icon'
-                    className='rounded-lg'
-                    aria-label='API'
-                  >
-                    <Scan className='size-5' />
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent side='right' sideOffset={5}>
-                  Status
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-  
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button
-                    variant='ghost'
-                    size='icon'
-                    className='rounded-lg'
-                    aria-label='Documentation'
-                  >
-                    <MessageCircleMore className='size-5' />
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent side='right' sideOffset={5}>
-                  Channels
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-  
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button
-                    variant='ghost'
-                    size='icon'
-                    className='rounded-lg'
-                    aria-label='Settings'
-                  >
-                    <Dock className='size-5' />
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent side='right' sideOffset={5}>
-                  Tools
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-  
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button
-                    variant='ghost'
-                    size='icon'
-                    className='rounded-lg'
-                    aria-label='Settings'
-                  >
-                    <Megaphone className='size-5' />
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent side='right' sideOffset={5}>
-                  Advertise
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-          </nav>
-  
-          <nav className='mt-auto grid gap-2 px-2 py-4'>
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <ModeToggle />
-                </TooltipTrigger>
-                <TooltipContent side='right' sideOffset={5}>
-                  Theme
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-  
-            <div className='flex items-center justify-center'>
-              <UserButton />
-            </div>
-          </nav>
+            <nav className='mt-auto grid gap-2 px-2 py-4'>
+                <TooltipProvider>
+                    <Tooltip>
+                        <TooltipTrigger asChild>
+                            <ModeToggle />
+                        </TooltipTrigger>
+                        <TooltipContent side='right' sideOffset={5}>
+                            Theme
+                        </TooltipContent>
+                    </Tooltip>
+                </TooltipProvider>
+    
+                <div className='flex items-center justify-center'>
+                    <UserButton />
+                </div>
+            </nav>
         </aside>
     )
 }
