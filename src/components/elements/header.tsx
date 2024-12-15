@@ -1,3 +1,4 @@
+import { SignInButton, SignedIn, SignedOut, UserButton } from '@clerk/nextjs'
 import { Button } from "@/components/ui/button";
 import { NavigationMenu, NavigationMenuItem, NavigationMenuLink, NavigationMenuList } from "@/components/ui/navigation-menu";
 import { MessageSquareMore, Users2, Zap, Shield, ArrowRight } from "lucide-react";
@@ -34,12 +35,16 @@ function Header() {
               </NavigationMenuList>
             </NavigationMenu>
             <div className="flex items-center space-x-4">
-                <Link href="/auth/sign-in">
-                    <Button variant="ghost">Log in</Button>
-                </Link>
+              <SignedOut>
+                <SignInButton />
+              </SignedOut>
+              <SignedIn>
+                <UserButton />
+
                 <Link href="/workspace">
                     <Button>Get Started</Button>
                 </Link>
+              </SignedIn>
             </div>
           </div>
         </div>
