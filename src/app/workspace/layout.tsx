@@ -10,19 +10,19 @@ import {
 } from "@/components/ui/resizable";
 import Sidebar from '@/components/layouts/sidebar';
 import CreateChannel from '@/components/elements/create-channel';
-import { usePanel } from '@/hooks/use-panel';
-import { Loader } from 'lucide-react';
-import { Id } from '../../../convex/_generated/dataModel';
-import Thread from '@/components/elements/thread';
+// import { usePanel } from '@/hooks/use-panel';
+// import { Loader } from 'lucide-react';
+// import { Id } from '../../../convex/_generated/dataModel';
+// import Thread from '@/components/elements/thread';
 
 const WorkspaceLayout = ({
     children,
   }: Readonly<{
     children: React.ReactNode;
   }>) => {
-    const { parentMessageId, onCloseMessage } = usePanel();
+    // const { parentMessageId, onCloseMessage } = usePanel();
 
-    const showPanel = !!parentMessageId;
+    // const showPanel = !!parentMessageId;
 
   return (
     <div className='bg-muted/50'>
@@ -48,7 +48,7 @@ const WorkspaceLayout = ({
             <ResizablePanel minSize={20}>
               {children}
             </ResizablePanel>
-            {showPanel && (
+            {/* {showPanel && (
               <>
                 <ResizableHandle withHandle />
                 <ResizablePanel
@@ -67,7 +67,7 @@ const WorkspaceLayout = ({
                   )}
                 </ResizablePanel>
               </>
-            )}
+            )} */}
           </ResizablePanelGroup>
         </div>
       </div>
